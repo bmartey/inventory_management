@@ -1,0 +1,89 @@
+<!-- Written by Brian Martey-->
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Inventory Portal</title>
+    <link rel="shortcut icon" type="image/png" href="images/NCA1.png"/>
+    <link rel="stylesheet" href="css/vendor/bootstrap/bootstrap.min.css">
+    <link rel="stylesheet" href="css/vendor/jquery-ui.min.css">
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" type="text/css" href="dist/sweetalert2.css">
+    <link rel="stylesheet" type="text/css" href="css/animate.css">
+    <link rel="stylesheet" type="text/css" href="css/lato.css" />
+  </head>
+
+  <body class="index-bg">
+
+  	<div id="rightHalf">
+  		<div id="inner_container">
+				<img id="logo" src="images/imp.png">
+				<a href="../active_directory"><img id="logo" src="images/nad.png"></a>
+  			<div class="spacer"></div>
+  			<div>Work Account</div>
+  			<div class="error_heading"></div>
+  			<div class="input_field">
+	  			<label for="username" class="sr-only">User Name</label>
+		        <input type="text" id="username" class="form-control" placeholder="User Name" required autofocus>
+		        <br>
+		        <label for="password" class="sr-only">Password</label>
+		        <input type="password" id="password" class="form-control" placeholder="Password" required autofocus>
+		        <br>
+		        <button id="submit" class="btn btn-sm btn-primary" type="submit">Sign in</button>
+  			</div>
+  		</div>
+  		<div class="footer text-center"><img id="ncalogo" src="images/NCA.png" style="width: 40px;"> &copy National Communication Authority</div>
+  	</div>
+
+    <script src="js/vendor/jquery-3.0.0.min.js"></script>
+    <script src="js/vendor/bootstrap.min.js"></script>
+    <script src="js/vendor/jquery-ui.min.js"></script>
+    <script src="dist/sweetalert2.js"></script>
+    <script type="text/javascript">
+    $(document).ready(function() {
+	    function error() {
+	        swal({
+	          title: 'Sorry', 
+	          text: 'Wrong Information!', 
+	          type: 'error',
+	          animation: false,
+	          customClass: 'animated tada'
+	        }); 
+	      }
+
+	    function success(data){
+	        swal({
+	          title: 'Success', 
+	          text: 'Logged In', 
+	          type: 'success',
+	          allowOutsideClick: false
+	        }).then(function(){ 
+	            sessionStorage.setItem('userdata',JSON.stringify(data));
+	            window.location.href = "home.html";
+	        }); 
+	      }
+
+	    $('#submit').click(function(event) {
+	        event.preventDefault();
+	        var username = $("#username").val();
+	        var password = $("#password").val();
+	        var theurl = 'cmd=1&username='+username+'&password='+password;
+
+	        $.ajax({
+	          type: 'POST',
+	          url: 'accessservice.php',
+	          data: theurl,
+	          success: function(data)
+	          {
+	            var mydata = JSON.parse(data);
+	            if (mydata =="") {
+	            	error();
+	            }else{
+	                success(mydata);
+	            }
+	          }
+	        });
+	    });
+	});
+    </script>
+  </body>
+</html>

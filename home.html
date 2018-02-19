@@ -1,0 +1,2729 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <link rel="apple-touch-icon" sizes="76x76" href="images/NCA1.png">
+    <link rel="icon" type="image/png" href="images/minilogo.png">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+    <title>Inventory Portal Home</title>
+    <meta content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0, shrink-to-fit=no' name='viewport' />
+    <link rel="stylesheet" href="datatables/datatables.min.css">
+    <link rel="stylesheet" href="datatables/buttons.dataTables.min.css">
+    <!--     Fonts and icons     -->
+    <link href="css/mont.css" rel="stylesheet" />
+    <link rel="stylesheet" href="css/font-awesome.min.css" />
+    <!-- CSS Files -->
+    <link href="css/vendor/bootstrap/bootstrap.min.css" rel="stylesheet" />
+    <link href="css/now-ui-kit.css" rel="stylesheet" />
+    <link rel="stylesheet" type="text/css" href="dist/sweetalert2.css">
+    
+    <!-- CSS Just for demo purpose, don't include it in your project -->
+</head>
+
+<body class="index-page">
+    <!-- Navbar -->
+    <nav class="navbar navbar-toggleable-md bg-primary fixed-top navbar-transparent " color-on-scroll="500">
+        <div class="container">
+            <div class="navbar-translate">
+                <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navigation" aria-controls="navigation-index" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-bar bar1"></span>
+                    <span class="navbar-toggler-bar bar2"></span>
+                    <span class="navbar-toggler-bar bar3"></span>
+                </button>
+                <a class="navbar-brand" href="#">
+                    Inventory Management Portal
+                </a>
+            </div>
+            <div class="collapse navbar-collapse justify-content-end" id="navigation" data-nav-image="./assets/img/blurred-image-1.jpg">
+                <ul class="navbar-nav">
+                    <li class="nav-item">
+                        <a class="nav-link" href="#" data-toggle="modal" data-target="#profileis" onclick="openPass()">
+                            <i class="fa fa-id-badge"></i>
+                            <p id="username"></p>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" rel="tooltip" title="Log Out" data-placement="bottom" onclick="logout()">
+                            <i class="fa fa-sign-out"></i>
+                            <p class="hidden-lg-up">Log Out</p>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <!-- End Navbar -->
+    <div class="wrapper">
+        <div class="page-header clear-filter" filter-color="blue">
+            <div class="page-header-image" data-parallax="true" style="background-image: url('./assets/img/bg7.jpg');">
+            </div>
+            <div class="container">
+                <div class="content-center">
+                    <div class="row text-center">
+                        <div id="thumbdark" class="col-xs-6 col-sm-6 col-md-6" href="javascript:void(0)" onclick="scrollToView()">
+                            <div class="thumbnails">
+                                <div class="header-content-centers">
+                                    <i class="fa fa-eye"></i>
+                                </div>
+                                <div class="footer-content-centers">
+                                    View List
+                                </div>
+                            </div>
+                        </div>
+                        <div id="thumbgrey" class="col-xs-6 col-sm-6 col-md-6" href="javascript:void(0)" onclick="scrollToRequests()">
+                            <div class="thumbnails">
+                                <div class="header-content-centers">
+                                    <i class="fa fa-pencil"></i>
+                                </div>
+                                <div class="footer-content-centers">
+                                    Asset Request
+                                </div>
+                            </div>
+                        </div>
+                        <div id="thumblight" class="col-xs-6 col-sm-6 col-md-6" href="javascript:void(0)" onclick="scrollToViewRequests()">
+                            <div class="thumbnails">
+                                <div class="header-content-centers">
+                                    <i class="fa fa-folder-open-o"></i>
+                                </div>
+                                <div class="footer-content-centers">
+                                    View Requests
+                                </div>
+                            </div>
+                        </div>
+                        <div id="thumbsemi" class="col-xs-6 col-sm-6 col-md-6" href="javascript:void(0)" onclick="scrollToNewOrg()">
+                            <div class="thumbnails">
+                                <div class="header-content-centers">
+                                    <i class="fa fa-pencil-square-o"></i>
+                                </div>
+                                <div class="footer-content-centers">
+                                    Forms
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <footer class="footer">
+                    <div class="container">
+                        <div class="copyright">
+                            &copy;
+                            <script>
+                                document.write(new Date().getFullYear())
+                            </script>, Created using
+                            <a href="http://www.invisionapp.com" target="_blank">Invision</a>, 
+                            <a href="https://www.creative-tim.com" target="_blank">Creative Tim</a> by 
+                            <a href="#">Brian Martey</a>.
+                        </div>
+                    </div>
+                </footer>
+
+            </div>
+        </div>
+        <div class="main">
+            <div class="section" id="recordrequest" style="display:none;">
+                <div class="container">
+                    <h3 class="title">Asset Request</h3>
+                    <div class="row">
+                        <div class="col-sm-1 col-md-2 col-lg-3"></div>
+                        <div class="col-sm-10 col-md-8 col-lg-6"></div>
+                            <div class="col-sm-6 col-md-6 col-lg-6">
+                                <div class="form-group">
+                                    <select id="requestedasset" class="form-control">
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-sm-6 col-md-6 col-lg-6">
+                                <div class="form-group">
+                                    <select id="requestee" class="form-control" onchange="dynamicdropdown(this.options[this.selectedIndex].value);">
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-sm-6 col-md-6 col-lg-4">
+                                <div class="form-group">
+                                    <input  id="requesteedivision" type="text" class="form-control" placeholder="Requestee Division" value="">
+                                    <input  style="display:none;" id="requesteedivisionno" type="text" class="form-control" placeholder="Division Number" value="">
+                                </div>
+                            </div>
+                            <div class="col-sm-6 col-md-6 col-lg-4">
+                                <div class="form-group">
+                                    <input  id="requesteeoffice" type="text" class="form-control" placeholder="Requestee Office" value="">
+                                    <input  style="display:none;" id="requesteeofficeno" type="text" class="form-control" placeholder="Office Number" value="">
+                                </div>
+                            </div>
+                            <div class="col-sm-6 col-md-6 col-lg-4">
+                                <div class="datepicker-container">
+                                    <div class="form-group">
+                                        <input  id="requestdate" type="text" class="form-control date-picker" placeholder="Date Requested" value="">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-1 col-md-2 col-lg-3"></div>
+                        <div class="row col-sm-12 col-md-12 col-lg-12">
+                            <div class="col-sm-4 col-md-4 col-lg-4"></div> 
+                            <div class="col-sm-4 col-md-4 col-lg-4">
+                                <button type="button" class="btn btn-simple btn-round btn-info btn-lg btn-block" onclick="addRequest()">Submit</button>
+                            </div>
+                            <div class="col-sm-4 col-md-4 col-lg-4"></div>
+                        </div>      
+                    </div>
+                </div>
+            </div>
+            <div class="section" id="viewrecords" style="display:none;">
+                <div class="container">
+                    <h3 class="title">View Lists</h3>
+                    <div class="col-md-12 offset-md-1 col-xl-12 offset-xl-0">
+                        <!-- Nav tabs -->
+                        <div class="card">
+                            <ul class="nav nav-tabs justify-content-center" role="tablist">
+                                <li class="nav-item">
+                                    <a class="nav-link active" data-toggle="tab" href="#assetsinuselist" role="tab" aria-expanded="true">
+                                        <i class="now-ui-icons loader_refresh"></i> Assets in Use
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" data-toggle="tab" href="#pastdueassetlist" role="tab" aria-expanded="true">
+                                        <i class="now-ui-icons loader_refresh"></i> Past Due Assets
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" data-toggle="tab" href="#employeelist" role="tab" aria-expanded="false">
+                                        <i class="now-ui-icons users_single-02"></i> Employees
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" data-toggle="tab" href="#vendorslist" role="tab" aria-expanded="false">
+                                        <i class="now-ui-icons shopping_cart-simple"></i> Vendors
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" data-toggle="tab" href="#assetslist" role="tab" aria-expanded="false">
+                                        <i class="now-ui-icons design-2_ruler-pencil"></i> Graphs
+                                    </a>
+                                </li>
+                            </ul>
+                            <div class="card-block">
+                                <!-- Tab panes -->
+                                <div class="tab-content text-center">
+                                    <div class="tab-pane active" id="assetsinuselist" role="tabpanel" aria-expanded="true">
+                                        <table id="details" cellpadding="0" cellspacing="0" border="0" class="table table-striped table-bordered" width="100%">
+                                        <thead>
+                                            <tr>
+                                                <th>Name</th>
+                                                <th>Office</th>
+                                                <th>Asset</th>
+                                                <th>Description</th>
+                                                <th>Serial Number</th>
+                                                <th>Asset Number</th>
+                                                <th>Authorization Date</th>
+                                                <th>Edit</th>
+                                            </tr>
+                                        </thead>
+                                        <tfoot>
+                                            <tr>
+                                                <th>Name</th>
+                                                <th>Office</th>
+                                                <th>Asset</th>
+                                                <th>Description</th>
+                                                <th>Serial Number</th>
+                                                <th>Asset Number</th>
+                                                <th>Authorization Date</th>
+                                                <th>Edit</th>
+                                            </tr>
+                                        </tfoot>
+                                        </table>
+                                    </div>
+                                    <div class="tab-pane" id="pastdueassetlist" role="tabpanel" aria-expanded="true">
+                                        <table id="pastdue" cellpadding="0" cellspacing="0" border="0" class="table table-striped table-bordered" width="100%">
+                                        <thead>
+                                            <tr>
+                                                <th class="col-sm-2 col-md-2 col-lg-2">Name</th>
+                                                <th>Office</th>
+                                                <th class="col-sm-3 col-md-3 col-lg-3">Asset</th>
+                                                <th>Description</th>
+                                                <th>Serial Number</th>
+                                                <th>Asset Number</th>
+                                                <th>Authorization Date</th>
+                                            </tr>
+                                        </thead>
+                                        <tfoot>
+                                            <tr>
+                                                <th>Name</th>
+                                                <th>Office</th>
+                                                <th>Asset</th>
+                                                <th>Description</th>
+                                                <th>Serial Number</th>
+                                                <th>Asset Number</th>
+                                                <th>Authorization Date</th>
+                                            </tr>
+                                        </tfoot>
+                                        </table>
+                                    </div>
+                                    <div class="tab-pane" id="employeelist" role="tabpanel" aria-expanded="false">
+                                        <table id="empsdetails" cellpadding="0" cellspacing="0" border="0" class="table table-striped table-bordered" width="100%">
+                                        <thead>
+                                            <tr>
+                                                <th class="col-sm-2 col-md-2 col-lg-2">Name</th>
+                                                <th class="col-sm-2 col-md-2 col-lg-2">Extension</th>
+                                                <th class="col-sm-2 col-md-2 col-lg-2">Phone Number</th>
+                                                <th class="col-sm-2 col-md-2 col-lg-2">Details</th>
+                                            </tr>
+                                        </thead>
+                                        <tfoot>
+                                            <tr>
+                                                <th>Name</th>
+                                                <th>Extension</th>
+                                                <th>Phone Number</th>
+                                                <th>Details</th>
+                                            </tr>
+                                        </tfoot>
+                                        </table>
+                                    </div>
+                                    <div class="tab-pane" id="vendorslist" role="tabpanel" aria-expanded="false">
+                                        <table id="vendorsdetails" cellpadding="0" cellspacing="0" border="0" class="table table-striped table-bordered" width="100%">
+                                        <thead>
+                                            <tr>
+                                                <th>Name</th>
+                                                <th>Number</th>
+                                                <th>Contact</th>
+                                                <th>Contact Number</th>
+                                                <th>Details</th>
+                                            </tr>
+                                        </thead>
+                                        <tfoot>
+                                            <tr>
+                                                <th class="col-sm-2 col-md-2 col-lg-2">Name</th>
+                                                <th class="col-sm-2 col-md-2 col-lg-2">Number</th>
+                                                <th class="col-sm-2 col-md-2 col-lg-3">Contact</th>
+                                                <th class="col-sm-3 col-md-3 col-lg-2">Contact Number</th>
+                                                <th class="col-sm-2 col-md-2 col-lg-2">Details</th>
+                                            </tr>
+                                        </tfoot>
+                                        </table>
+                                    </div>
+                                    <div class="tab-pane" id="assetslist" role="tabpanel" aria-expanded="false">
+                                        <div id="container" style="min-width: 70%; height: 400px; max-width: 90%; margin: 0px auto"></div>
+                                        <div id="container1" style="min-width: 70%; height: 400px; max-width: 90%; margin: 0px auto"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="section section-tabs" id="renewalform" style="display:none;">
+                <div class="container">
+                    <h3 class="title">View Requests</h3>
+                    <div class="col-md-12 offset-md-1 col-xl-12 offset-xl-0">
+                        <!-- Nav tabs -->
+                        <div class="card">
+                            <ul class="nav nav-tabs justify-content-center" role="tablist">
+                                <li class="nav-item">
+                                    <a class="nav-link active" data-toggle="tab" href="#pending" role="tab" aria-expanded="true">
+                                        <i class="now-ui-icons loader_refresh"></i> Pending
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" data-toggle="tab" href="#approved" role="tab" aria-expanded="false">
+                                        <i class="now-ui-icons ui-2_like"></i> Approved
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" data-toggle="tab" href="#disapproved" role="tab" aria-expanded="false">
+                                        <i class="now-ui-icons ui-1_simple-remove"></i> Not Approved
+                                    </a>
+                                </li>
+                            </ul>
+                            <div class="card-block">
+                                <!-- Tab panes -->
+                                <div class="tab-content text-center">
+                                    <div class="tab-pane active" id="pending" role="tabpanel" aria-expanded="true">
+                                        <table id="pendingrequests" cellpadding="0" cellspacing="0" border="0" class="table table-striped table-bordered" width="100%">
+                                        <thead>
+                                            <tr>
+                                                <th class="col-sm-3 col-md-3 col-lg-3">Name</th>
+                                                <th class="col-sm-2 col-md-2 col-lg-2">Division</th>
+                                                <th class="col-sm-2 col-md-2 col-lg-2">Request Date</th>
+                                                <th class="col-sm-3 col-md-3 col-lg-3">Asset</th>
+                                                <th class="col-sm-2 col-md-2 col-lg-2">Action</th>
+                                            </tr>
+                                        </thead>
+                                        <tfoot>
+                                            <tr>
+                                                <th>Name</th>
+                                                <th>Division</th>
+                                                <th>Request Date</th>
+                                                <th>Asset</th>
+                                                <th>Action</th>
+                                            </tr>
+                                        </tfoot>
+                                        </table>
+                                    </div>
+                                    <div class="tab-pane" id="approved" role="tabpanel" aria-expanded="false">
+                                        <table id="approvedrequests" cellpadding="0" cellspacing="0" border="0" class="table table-striped table-bordered" width="100%">
+                                        <thead>
+                                            <tr>
+                                                <th class="col-sm-3 col-md-3 col-lg-3">Name</th>
+                                                <th class="col-sm-2 col-md-2 col-lg-2">Division</th>
+                                                <th class="col-sm-2 col-md-2 col-lg-2">Request Date</th>
+                                                <th class="col-sm-3 col-md-3 col-lg-3">Asset</th>
+                                                <th class="col-sm-2 col-md-2 col-lg-2">Action</th>
+                                            </tr>
+                                        </thead>
+                                        <tfoot>
+                                            <tr>
+                                                <th>Name</th>
+                                                <th>Division</th>
+                                                <th>Request Date</th>
+                                                <th>Asset</th>
+                                                <th>Action</th>
+                                            </tr>
+                                        </tfoot>
+                                        </table>
+                                    </div>
+                                    <div class="tab-pane" id="disapproved" role="tabpanel" aria-expanded="false">
+                                        <table id="notapprovedrequests" cellpadding="0" cellspacing="0" border="0" class="table table-striped table-bordered" width="100%">
+                                        <thead>
+                                            <tr>
+                                                <th class="col-sm-3 col-md-3 col-lg-3">Name</th>
+                                                <th class="col-sm-2 col-md-2 col-lg-2">Division</th>
+                                                <th class="col-sm-2 col-md-2 col-lg-2">Request Date</th>
+                                                <th class="col-sm-3 col-md-3 col-lg-3">Asset</th>
+                                            </tr>
+                                        </thead>
+                                        <tfoot>
+                                            <tr>
+                                                <th>Name</th>
+                                                <th>Division</th>
+                                                <th>Request Date</th>
+                                                <th>Asset</th>
+                                            </tr>
+                                        </tfoot>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="section" id="neworgform" style="display:none;">
+                <div class="container">
+                    <h3 class="title">Fill Forms</h3>
+                    <div class="col-md-12 offset-md-1 col-xl-12 offset-xl-0">
+                        <!-- Nav tabs -->
+                        <div class="card">
+                            <ul class="nav nav-tabs justify-content-center" role="tablist">
+                                <li class="nav-item">
+                                    <a class="nav-link active" data-toggle="tab" href="#assetform" role="tab" aria-expanded="true">
+                                        <i class="now-ui-icons design-2_ruler-pencil"></i> Asset
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" data-toggle="tab" href="#vendorform" role="tab" aria-expanded="false">
+                                        <i class="now-ui-icons shopping_cart-simple"></i> Vendors
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" data-toggle="tab" href="#employeeform" role="tab" aria-expanded="false">
+                                        <i class="now-ui-icons users_single-02"></i> Employees
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" data-toggle="tab" href="#maintenanceform" role="tab" aria-expanded="false">
+                                        <i class="now-ui-icons ui-2_settings-90"></i> Maintenance
+                                    </a>
+                                </li>
+                            </ul>
+                            <div class="card-block">
+                                <!-- Tab panes -->
+                                <div class="tab-content text-center">
+                                    <div class="tab-pane active" id="assetform" role="tabpanel" aria-expanded="true">
+                                        <div class="row">
+                                            <div class="col-sm-1 col-md-2 col-lg-2"></div>
+                                            <div class="col-sm-10 col-md-8 col-lg-8">
+                                                <div class="col-sm-6 col-md-6 col-lg-8">
+                                                    <div class="form-group">
+                                                        <textarea id="assdescription" type="text" class="form-control" placeholder="Asset Description" value=""></textarea>
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-6 col-md-3 col-lg-4">
+                                                    <div class="form-group">
+                                                        <select id="asscategory" class="form-control">
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-6 col-md-3 col-lg-4">
+                                                    <div class="form-group">
+                                                        <select id="assemployee" class="form-control" onchange="dynamicdropdown4(this.options[this.selectedIndex].value);">
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-6 col-md-3 col-lg-6">
+                                                    <div class="form-group">
+                                                        <input  id="assdivision" type="text" class="form-control" placeholder="Division" value="">
+                                                    </div>
+                                                    <input style="display:none;" id="assdivisionno" type="text" class="form-control" placeholder="Division Number" value="">
+                                                </div>
+                                                <div class="col-sm-6 col-md-6 col-lg-6">
+                                                    <div class="form-group">
+                                                        <input  id="assoffice" type="text" class="form-control" placeholder="Office" value="">
+                                                    </div>
+                                                    <input  style="display:none;" id="assofficeno" type="text" class="form-control" placeholder="Division Number" value="">
+                                                </div>
+                                                <div class="col-sm-6 col-md-6 col-lg-6">
+                                                    <div class="form-group">
+                                                        <select id="assvendor" class="form-control">
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-6 col-md-6 col-lg-6">
+                                                    <div class="form-group">
+                                                        <input  id="assserial" type="text" class="form-control" placeholder="Serial Number" value="" onkeydown="upperCaseF(this)">
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-6 col-md-6 col-lg-4">
+                                                    <div class="form-group">
+                                                        <input  id="assnumber" type="text" class="form-control" placeholder="Asset Number" value="" onkeydown="upperCaseF(this)">
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-6 col-md-6 col-lg-4">
+                                                    <div class="form-group">
+                                                        <input  id="assmodel" type="text" class="form-control" placeholder="Model Number" value="">
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-6 col-md-6 col-lg-4">
+                                                    <div class="datepicker-container">
+                                                        <div class="form-group">
+                                                            <input  id="assdatepurchased" type="text" class="form-control date-picker" placeholder="Purchase Date" value="">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-6 col-md-6 col-lg-4">
+                                                    <div class="datepicker-container">
+                                                        <div class="form-group">
+                                                            <input  id="assdateissued" type="text" class="form-control date-picker" placeholder="Issue Date" value="">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-6 col-md-6 col-lg-4">
+                                                    <div class="input-group">
+                                                        <span class="input-group-addon"><i class="fa fa-money"></i></span>
+                                                        <input id="asspurchase" type="text" class="form-control" placeholder="Purchase Price" aria-describedby="faxno">
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-6 col-md-6 col-lg-4">
+                                                    <div class="input-group">
+                                                        <span class="input-group-addon"><i class="fa fa-money"></i></span>
+                                                        <input id="asscurrent" type="text" class="form-control" placeholder="Current Price" aria-describedby="faxno">
+                                                    </div>
+                                                </div>      
+                                            </div>
+                                            <div class="col-sm-1 col-md-2 col-lg-2"></div>   
+                                            <div class="row col-sm-12 col-md-12 col-lg-12">
+                                                <div class="col-sm-4 col-md-4 col-lg-4"></div> 
+                                                <div class="col-sm-4 col-md-4 col-lg-4">
+                                                    <button type="button" class="btn btn-simple btn-round btn-info btn-lg btn-block" onclick="addAsset()">Submit</button>
+                                                </div>
+                                                <div class="col-sm-4 col-md-4 col-lg-4"></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="tab-pane" id="vendorform" role="tabpanel" aria-expanded="false">
+                                        <div class="row">
+                                            <div class="col-sm-1 col-md-2 col-lg-2"></div>
+                                            <div class="col-sm-10 col-md-8 col-lg-8">
+                                                <div class="col-sm-6 col-md-6 col-lg-12">
+                                                    <div class="form-group">
+                                                        <input  id="venname" type="text" class="form-control" placeholder="Company Name" value="">
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-6 col-md-6 col-lg-6">
+                                                    <div class="form-group">
+                                                        <select id="vencountry" class="form-control" onchange="dynamicdropdown3(this.options[this.selectedIndex].value);">
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-6 col-md-6 col-lg-6">
+                                                    <div class="input-group">
+                                                        <span class="input-group-addon">
+                                                            <i class="fa fa-phone"></i>
+                                                        </span>
+                                                        <input id="venphone" type="text" class="form-control" placeholder="Company Phone">
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-6 col-md-6 col-lg-6">
+                                                    <div class="form-group">
+                                                        <textarea  id="venpaddress" type="text" class="form-control" placeholder="Postal Address" value=""></textarea>
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-6 col-md-6 col-lg-6">
+                                                    <div class="form-group">
+                                                        <textarea  id="venphaddress" type="text" class="form-control" placeholder="Physical Address" value=""></textarea>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-sm-1 col-md-2 col-lg-2"></div>
+                                            <br/>
+                                            <div class="col-sm-1 col-md-2 col-lg-2"></div>
+                                            <div class="col-sm-5 col-md-4 col-lg-4">
+                                                <div class="form-group">
+                                                    <input  id="venconname" type="text" class="form-control" placeholder="Contact Person Name" value="">
+                                                </div>
+                                            </div>
+                                            <div class="col-sm-5 col-md-4 col-lg-4">
+                                                <div class="input-group">
+                                                    <span class="input-group-addon">
+                                                        <i class="fa fa-phone"></i>
+                                                    </span>
+                                                    <input id="venconno" type="text" class="form-control" placeholder="Contact Person Number">
+                                                </div>
+                                            </div>
+                                            <div class="col-sm-1 col-md-2 col-lg-2"></div>
+                                            <div class="col-sm-1 col-md-2 col-lg-2"></div>
+                                            <div class="col-sm-10 col-md-8 col-lg-8">
+                                                <div class="form-group">
+                                                    <textarea  id="vennotes" type="text" class="form-control" placeholder="Notes" value=""></textarea>
+                                                </div>
+                                            </div>
+                                            <div class="col-sm-1 col-md-2 col-lg-2"></div>
+                                            <div class="row col-sm-12 col-md-12 col-lg-12">
+                                                <div class="col-sm-4 col-md-4 col-lg-4"></div> 
+                                                <div class="col-sm-4 col-md-4 col-lg-4">
+                                                    <button type="button" class="btn btn-simple btn-round btn-info btn-lg btn-block" onclick="addVendor()">Submit</button>
+                                                </div>
+                                                <div class="col-sm-4 col-md-4 col-lg-4"></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="tab-pane" id="employeeform" role="tabpanel" aria-expanded="false">
+                                        <div class="row">
+                                            <div class="col-sm-1 col-md-2 col-lg-2"></div>
+                                            <div class="col-sm-10 col-md-8 col-lg-8">
+                                                <div class="col-sm-6 col-md-6 col-lg-12">
+                                                    <div class="form-group">
+                                                        <input  id="empname" type="text" class="form-control" placeholder="Name" value="">
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-6 col-md-6 col-lg-6">
+                                                    <div class="form-group">
+                                                        <select id="empdivision" class="form-control">
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-6 col-md-6 col-lg-6">
+                                                    <div class="form-group">
+                                                        <select id="empoffice" class="form-control">
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-6 col-md-6 col-lg-6">
+                                                    <div class="input-group">
+                                                        <span class="input-group-addon">
+                                                            <i class="fa fa-phone"></i>
+                                                        </span>
+                                                        <input id="empphone" type="text" class="form-control" placeholder="Phone">
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-6 col-md-6 col-lg-6">
+                                                    <div class="input-group">
+                                                        <span class="input-group-addon">
+                                                            <i class="fa fa-phone-square"></i>
+                                                        </span>
+                                                        <input id="empext" type="text" class="form-control" placeholder="Extension">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-sm-1 col-md-2 col-lg-2"></div>
+                                            <div class="row col-sm-12 col-md-12 col-lg-12">
+                                                <div class="col-sm-4 col-md-4 col-lg-4"></div> 
+                                                <div class="col-sm-4 col-md-4 col-lg-4">
+                                                    <button type="button" class="btn btn-simple btn-round btn-info btn-lg btn-block" onclick="addEmployee()">Submit</button>
+                                                </div>
+                                                <div class="col-sm-4 col-md-4 col-lg-4"></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="tab-pane" id="maintenanceform" role="tabpanel" aria-expanded="false">
+                                        <div class="row">
+                                            <div class="col-sm-1 col-md-2 col-lg-2"></div>
+                                            <div class="col-sm-10 col-md-8 col-lg-8">
+                                                <div class="col-sm-6 col-md-6 col-lg-6">
+                                                    <div class="form-group">
+                                                        <select id="maintenanceemployee" class="form-control" onchange="dynamicdropdown2(this.options[this.selectedIndex].value);">
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-6 col-md-6 col-lg-6">
+                                                    <div class="form-group">
+                                                        <select id="maintenanceassets" class="form-control">
+                                                            <option>Select Employee First</option>
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-6 col-md-6 col-lg-6">
+                                                    <div class="datepicker-container">
+                                                        <div class="form-group">
+                                                            <input  id="maindate" type="text" class="form-control date-picker" placeholder="Maintenance Date" value="">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-6 col-md-6 col-lg-6">
+                                                    <div class="form-group">
+                                                        <input  id="maintenanceby" type="text" class="form-control" placeholder="Maintenance Done By" value="">
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-6 col-md-6 col-lg-8">
+                                                    <div class="form-group">
+                                                        <textarea id="maintenancedescription" type="text" class="form-control" placeholder="Description" value=""></textarea>
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-6 col-md-6 col-lg-4">
+                                                    <div class="input-group">
+                                                        <span class="input-group-addon">
+                                                            <i class="fa fa-money"></i>
+                                                        </span>
+                                                        <input id="maintenancecost" type="text" class="form-control" placeholder="Cost">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-sm-1 col-md-2 col-lg-2"></div>
+                                            <div class="row col-sm-12 col-md-12 col-lg-12">
+                                                <div class="col-sm-4 col-md-4 col-lg-4"></div> 
+                                                <div class="col-sm-4 col-md-4 col-lg-4">
+                                                    <button type="button" class="btn btn-simple btn-round btn-info btn-lg btn-block" onclick="addMaintenance()">Submit</button>
+                                                </div>
+                                                <div class="col-sm-4 col-md-4 col-lg-4"></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <br/>
+                </div>
+            </div>
+            <a id="topbutton" class="btn btn-lg btn-neutral btn-twitter btn-icon img-raised" onclick="scrollToTop()">
+                <i class="fa fa-angle-up"></i>
+            </a>
+        </div>
+        <div class="modal fade modal-secondary" id="assetdetails" tabindex="-1" role="dialog" aria-labelledby="detsLabel" aria-hidden="true">
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+                    <div class="modal-header justify-content-center">Asset Details</div>
+                    <div class="modal-body">
+                        <fieldset id="assetdetailsfield" disabled>
+                            <div class="row">
+                                <div class="col-sm-1 col-md-1 col-lg-1"></div>
+                                <div class="col-sm-10 col-md-10 col-lg-10">
+                                    <div class="col-sm-6 col-md-6 col-lg-8">
+                                        <div class="form-group">
+                                            <textarea id="detsassdescription" type="text" class="form-control" placeholder="Asset Description" value=""></textarea>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-6 col-md-3 col-lg-4">
+                                        <div class="form-group">
+                                            <select id="detsasscategory" class="form-control">
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-6 col-md-3 col-lg-4">
+                                        <div class="form-group">
+                                            <select id="detsassemployee" class="form-control" onchange="dynamicdropdown5(this.options[this.selectedIndex].value);">
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-6 col-md-3 col-lg-6">
+                                        <div class="form-group">
+                                            <input  id="detsassdivision" type="text" class="form-control" placeholder="Division" value="">
+                                        </div>
+                                        <input style="display:none;" id="detsassdivisionno" type="text" class="form-control" placeholder="Division Number" value="">
+                                        <input style="display:none;" id="detsassid" type="text" class="form-control" placeholder="AssetId" value="">
+                                    </div>
+                                    <div class="col-sm-6 col-md-6 col-lg-6">
+                                        <div class="form-group">
+                                            <input  id="detsassoffice" type="text" class="form-control" placeholder="Office" value="">
+                                        </div>
+                                        <input  style="display:none;" id="detsassofficeno" type="text" class="form-control" placeholder="Office Number" value="">
+                                    </div>
+                                    <div class="col-sm-6 col-md-6 col-lg-6">
+                                        <div class="form-group">
+                                            <select id="detsassvendor" class="form-control">
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-6 col-md-6 col-lg-6">
+                                        <div class="form-group">
+                                            <input  id="detsassserial" type="text" class="form-control" placeholder="Serial Number" value="">
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-6 col-md-6 col-lg-4">
+                                        <div class="form-group">
+                                            <input  id="detsassnumber" type="text" class="form-control" placeholder="Asset Number" value="">
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-6 col-md-6 col-lg-4">
+                                        <div class="form-group">
+                                            <input  id="detsassmodel" type="text" class="form-control" placeholder="Model Number" value="">
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-6 col-md-6 col-lg-4">
+                                        <div class="datepicker-container">
+                                            <div class="form-group">
+                                                <input  id="detsassdatepurchased" type="text" class="form-control date-picker" placeholder="Purchase Date" value="">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-6 col-md-6 col-lg-4">
+                                        <div class="datepicker-container">
+                                            <div class="form-group">
+                                                <input  id="detsassdateissued" type="text" class="form-control date-picker" placeholder="Issue Date" value="">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-6 col-md-6 col-lg-4">
+                                        <div class="input-group">
+                                            <span class="input-group-addon"><i class="fa fa-money"></i></span>
+                                            <input id="detsasspurchase" type="text" class="form-control" placeholder="Purchase Price" aria-describedby="faxno">
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-6 col-md-6 col-lg-4">
+                                        <div class="input-group">
+                                            <span class="input-group-addon"><i class="fa fa-money"></i></span>
+                                            <input id="detsasscurrent" type="text" class="form-control" placeholder="Current Price" aria-describedby="faxno">
+                                        </div>
+                                    </div>      
+                                </div>
+                                <div class="col-sm-1 col-md-1 col-lg-1"></div> 
+                            </div>
+                        </fieldset>
+                        
+                    </div>
+                    <div class="modal-footer">
+                        <button id="assetsaveButton" type="button" class="btn btn-link btn-success" onclick="assetdetailssave()" style="display:none;">Save</button>
+                        <button id="assetdeleteButton" type="button" class="btn btn-link btn-danger" onclick="assetdetailsdelete()" style="display:none;">Delete</button>
+                        <button  id="asseteditButton" type="button" class="btn btn-link btn-warning" onclick="assetdetailsedit()" >Edit</button>
+                        <button  id="assetreportButton" type="button" class="btn btn-link btn-warning" data-toggle="modal" data-target="#reasons">Report</button>
+                        <button type="button" class="btn btn-link btn-danger" data-dismiss="modal">Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="modal fade modal-secondary" id="vendordetails" tabindex="-1" role="dialog" aria-labelledby="detsLabel" aria-hidden="true">
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+                    <div class="modal-header justify-content-center">Details</div>
+                    <div class="modal-body">
+                        <fieldset id="vendordetailsfield" disabled>
+                            <div class="row">
+                                <div class="col-sm-1 col-md-1 col-lg-1"></div>
+                                <div class="col-sm-10 col-md-10 col-lg-10">
+                                    <div class="col-sm-6 col-md-6 col-lg-12">
+                                        <div class="form-group">
+                                            <input  id="detsvenname" type="text" class="form-control" placeholder="Company Name" value="">
+                                            <input  id="detsvenid" type="text" class="form-control" placeholder="Company Id" value="" style="display:none;">
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-6 col-md-6 col-lg-6">
+                                        <div class="form-group">
+                                            <select id="detsvencountry" class="form-control" onchange="dynamicdropdown6(this.options[this.selectedIndex].value);">
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-6 col-md-6 col-lg-6">
+                                        <div class="input-group">
+                                            <span class="input-group-addon">
+                                                <i class="fa fa-phone"></i>
+                                            </span>
+                                            <input id="detsvenphone" type="text" class="form-control" placeholder="Company Phone">
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-6 col-md-6 col-lg-6">
+                                        <div class="form-group">
+                                            <textarea  id="detsvenpaddress" type="text" class="form-control" placeholder="Postal Address" value=""></textarea>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-6 col-md-6 col-lg-6">
+                                        <div class="form-group">
+                                            <textarea  id="detsvenphaddress" type="text" class="form-control" placeholder="Physical Address" value=""></textarea>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-sm-1 col-md-1 col-lg-1"></div>
+                                <br/>
+                                <div class="col-sm-1 col-md-1 col-lg-1"></div>
+                                <div class="col-sm-5 col-md-5 col-lg-5">
+                                    <div class="form-group">
+                                        <input  id="detsvenconname" type="text" class="form-control" placeholder="Contact Person Name" value="">
+                                    </div>
+                                </div>
+                                <div class="col-sm-5 col-md-5 col-lg-5">
+                                    <div class="input-group">
+                                        <span class="input-group-addon">
+                                            <i class="fa fa-phone"></i>
+                                        </span>
+                                        <input id="detsvenconno" type="text" class="form-control" placeholder="Contact Person Number">
+                                    </div>
+                                </div>
+                                <div class="col-sm-1 col-md-1 col-lg-1"></div>
+                                <div class="col-sm-1 col-md-1 col-lg-1"></div>
+                                <div class="col-sm-10 col-md-10 col-lg-10">
+                                    <div class="form-group">
+                                        <textarea  id="detsvennotes" type="text" class="form-control" placeholder="Notes" value=""></textarea>
+                                    </div>
+                                </div>
+                                <div class="col-sm-1 col-md-1 col-lg-1"></div>
+                            </div> 
+                        </fieldset> 
+                    </div>
+                    <div class="modal-footer">
+                        <button id="vendorsaveButton" type="button" class="btn btn-link btn-success" onclick="vendordetailssave()" style="display:none;">Save</button>
+                        <button id="vendordeleteButton" type="button" class="btn btn-link btn-danger" onclick="vendordetailsdelete()" style="display:none;">Delete</button>
+                        <button  id="vendoreditButton" type="button" class="btn btn-link btn-warning" onclick="vendordetailsedit()" >Edit</button>
+                        <button type="button" class="btn btn-link btn-danger" data-dismiss="modal">Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="modal fade modal-secondary" id="empdetails" tabindex="-1" role="dialog" aria-labelledby="detsLabel" aria-hidden="true">
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+                    <div class="modal-header justify-content-center">Employee Details</div>
+                    <div class="modal-body">
+                        <fieldset id="empdetailsfield" disabled>
+                            <div class="row">
+                                <div class="col-sm-1 col-md-1 col-lg-1"></div>
+                                <div class="col-sm-10 col-md-10 col-lg-10">
+                                    <div class="col-sm-6 col-md-6 col-lg-12">
+                                        <div class="form-group">
+                                            <input  id="detsempname" type="text" class="form-control" placeholder="Name" value="">
+                                            <input  id="detsempid" type="text" class="form-control" placeholder="Id" value="" style="display:none;">
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-6 col-md-6 col-lg-6">
+                                        <div class="form-group">
+                                            <select id="detsempdivision" class="form-control">
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-6 col-md-6 col-lg-6">
+                                        <div class="form-group">
+                                            <select id="detsempoffice" class="form-control">
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-6 col-md-6 col-lg-6">
+                                        <div class="input-group">
+                                            <span class="input-group-addon">
+                                                <i class="fa fa-phone"></i>
+                                            </span>
+                                            <input id="detsempphone" type="text" class="form-control" placeholder="Phone">
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-6 col-md-6 col-lg-6">
+                                        <div class="input-group">
+                                            <span class="input-group-addon">
+                                                <i class="fa fa-phone-square"></i>
+                                            </span>
+                                            <input id="detsempext" type="text" class="form-control" placeholder="Extension">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-sm-1 col-md-1 col-lg-1"></div>
+                            </div> 
+                        </fieldset> 
+                    </div>
+                    <div class="modal-footer">
+                        <button id="empsaveButton" type="button" class="btn btn-link btn-success" onclick="empdetailssave()" style="display:none;">Save</button>
+                        <button id="empdeleteButton" type="button" class="btn btn-link btn-danger" onclick="empdetailsdelete()" style="display:none;">Delete</button>
+                        <button  id="empeditButton" type="button" class="btn btn-link btn-warning" onclick="empdetailsedit()" >Edit</button>
+                        <button type="button" class="btn btn-link btn-danger" data-dismiss="modal">Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="modal fade modal-mini modal-secondary" id="reasons" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content" style="background-color:gainsboro;">
+                    <div class="modal-header justify-content-center">Report Issue/Lost Asset?</div>
+                    <div class="modal-body">
+                        <textarea id="reasonsinfo" class="form-control" placeholder="Details"></textarea>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-link btn-success" onclick="assetreportsave()">Save</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="modal fade modal-mini" id="profileis" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content" style="background-color:#FFFFFF;">
+                    <div id="profileheader" class="modal-header justify-content-center"></div>
+                    <div class="modal-body"> 
+                        <form id="proffull" action="">
+
+                            <div id="opass" class="col-12" style="display:none;">
+                                <div class="form-group">
+                                    <input id="oopass" name="oopass" type="password" class="form-control" placeholder="Old Password" value="">
+                                </div>
+                            </div>
+                            <div class="col-12">
+                                <div class="form-group">
+                                    <button id="changePassButt" type="button" class="btn btn-default col-12" onclick="changePass()">Change Password</button>
+                                </div>
+                            </div>
+                            <div id="npass" class="col-12" style="display:none;">
+                                <div class="form-group">
+                                    <input id="nnpass" name="nnpass" type="password" class="form-control" placeholder="New Password" value="">
+                                </div>
+                            </div>
+                            <div id="cnpass" class="col-12" style="display:none;">
+                                <div class="form-group">
+                                    <input id="ccnpass" name="ccnpass" type="password" class="form-control" placeholder="Confirm New Password" value="">
+                                </div>
+                            </div>
+
+                        </form>
+
+                    </div>
+                    <div id="profilefooter" class="modal-footer" style="display:none;">
+                        <button type="button" class="btn btn-link btn-success" onclick="userpasswordchange()">Change Password</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+<!--   Core JS Files   -->
+<script src="js/vendor/jquery.3.2.1.min.js" type="text/javascript"></script>
+<script src="js/vendor/tether.min.js" type="text/javascript"></script>
+<script src="js/vendor/bootstrap.min.js" type="text/javascript"></script>
+<script src="dist/sweetalert2.js"></script>
+
+<script src="datatables/datatables.min.js"></script>
+<script src="datatables/dataTables.buttons.min.js"></script>
+<script src="datatables/buttons.flash.min.js"></script>
+<script src="datatables/jszip.min.js"></script>
+<script src="datatables/pdfmake.min.js"></script>
+<script src="datatables/vfs_fonts.js"></script>
+<script src="datatables/buttons.html5.min.js"></script>
+<script src="datatables/buttons.print.min.js"></script> 
+<script src="datatables/buttons.colVis.min.js"></script>
+
+<script src="js/highstock.js"></script>
+<script src="js/highcharts-3d.js"></script>
+<script src="js/exporting.js"></script> 
+<script type="text/javascript" src="charts/loader.js"></script>
+
+<!--  Plugin for Switches, full documentation here: http://www.jque.re/plugins/version3/bootstrap.switch/ -->
+<script src="js/plugins/bootstrap-switch.js"></script>
+<!--  Plugin for the Sliders, full documentation here: http://refreshless.com/nouislider/ -->
+<script src="js/plugins/nouislider.min.js" type="text/javascript"></script>
+<!--  Plugin for the DatePicker, full documentation here: https://github.com/uxsolutions/bootstrap-datepicker -->
+<script src="js/plugins/bootstrap-datepicker.js" type="text/javascript"></script>
+<!-- Control Center for Now Ui Kit: parallax effects, scripts for the example pages etc -->
+<script src="js/now-ui-kit.js" type="text/javascript"></script>
+<script type="text/javascript">
+    $(document).ready(function() {
+        $('#topbutton').hide();
+        var userinfo = sessionStorage.getItem('userdata');
+        var parsedinfo = JSON.parse(userinfo);
+        var userno = parsedinfo.id;
+        var username = parsedinfo.name;
+        var lusername = parsedinfo.lname;
+        var uname = document.getElementById("username");
+        uname.appendChild(document.createTextNode(username));
+
+        var profileuname = document.getElementById("profileheader");
+        profileuname.appendChild(document.createTextNode(username+" "+lusername));
+
+        document.getElementById("changePassButt").addEventListener("click", function(event){
+            event.preventDefault()
+        });
+
+        //asset dropdown
+        $.ajax({
+          type: 'POST',
+          url: 'accessservice.php?cmd=2',
+          success: function(data)
+          {
+            var myasset = JSON.parse(data);
+            var assetselect = document.getElementById("asscategory");
+            option = document.createElement("option");
+            option.setAttribute('value', "");
+            option.appendChild(document.createTextNode("Select Asset"));
+            assetselect.appendChild(option);
+            for(var i = 0; i <= myasset.length; i++) {
+                option = document.createElement("option");
+                option.setAttribute('value', myasset[i].id);
+                option.appendChild(document.createTextNode(myasset[i].name));
+                assetselect.appendChild(option);
+            }
+          }
+        });
+
+        //asset employee dropdown
+        $.ajax({
+          type: 'POST',
+          url: 'accessservice.php?cmd=3',
+          success: function(data)
+          {
+            var myrequestee = JSON.parse(data);
+            var maintenanceemployeeselect = document.getElementById("assemployee");
+            option = document.createElement("option");
+            option.setAttribute('value', "");
+            option.appendChild(document.createTextNode("Select Employee"));
+            maintenanceemployeeselect.appendChild(option);
+            for(var i = 0; i <= myrequestee.length; i++) {
+                option = document.createElement("option");
+                option.setAttribute('value', myrequestee[i].id);
+                option.appendChild(document.createTextNode(myrequestee[i].name));
+                maintenanceemployeeselect.appendChild(option);
+            }
+          }
+        });
+
+        //asset vendor dropdown
+        $.ajax({
+          type: 'POST',
+          url: 'accessservice.php?cmd=16',
+          success: function(data)
+          {
+            var myasset = JSON.parse(data);
+            var assetselect = document.getElementById("assvendor");
+            option = document.createElement("option");
+            option.setAttribute('value', "");
+            option.appendChild(document.createTextNode("Select Vendor"));
+            assetselect.appendChild(option);
+            for(var i = 0; i <= myasset.length; i++) {
+                option = document.createElement("option");
+                option.setAttribute('value', myasset[i].id);
+                option.appendChild(document.createTextNode(myasset[i].name));
+                assetselect.appendChild(option);
+            }
+          }
+        });
+        
+        //vendor country dropdown
+        $.ajax({
+          type: 'POST',
+          url: 'accessservice.php?cmd=12',
+          success: function(data)
+          {
+            var mycountry = JSON.parse(data);
+            var countryselect = document.getElementById("vencountry");
+            option = document.createElement("option");
+            option.setAttribute('value', "");
+            option.appendChild(document.createTextNode("Select Country"));
+            countryselect.appendChild(option);
+            for(var i = 0; i <= mycountry.length; i++) {
+                option = document.createElement("option");
+                option.setAttribute('value', mycountry[i].id);
+                option.appendChild(document.createTextNode(mycountry[i].name));
+                countryselect.appendChild(option);
+            }
+          }
+        });
+
+        //requested asset dropdown
+        $.ajax({
+          type: 'POST',
+          url: 'accessservice.php?cmd=2',
+          success: function(data)
+          {
+            var myasset = JSON.parse(data);
+            var assetselect = document.getElementById("requestedasset");
+            option = document.createElement("option");
+            option.setAttribute('value', "");
+            option.appendChild(document.createTextNode("Select Asset"));
+            assetselect.appendChild(option);
+            for(var i = 0; i <= myasset.length; i++) {
+                option = document.createElement("option");
+                option.setAttribute('value', myasset[i].id);
+                option.appendChild(document.createTextNode(myasset[i].name));
+                assetselect.appendChild(option);
+            }
+          }
+        });
+
+        //requestee dropdown
+        $.ajax({
+          type: 'POST',
+          url: 'accessservice.php?cmd=3',
+          success: function(data)
+          {
+            var myrequestee = JSON.parse(data);
+            var requesteeselect = document.getElementById("requestee");
+            option = document.createElement("option");
+            option.setAttribute('value', "");
+            option.appendChild(document.createTextNode("Select Employee"));
+            requesteeselect.appendChild(option);
+            for(var i = 0; i <= myrequestee.length; i++) {
+                option = document.createElement("option");
+                option.setAttribute('value', myrequestee[i].id);
+                option.appendChild(document.createTextNode(myrequestee[i].name));
+                requesteeselect.appendChild(option);
+            }
+          }
+        });
+
+        //maintenance employee dropdown
+        $.ajax({
+          type: 'POST',
+          url: 'accessservice.php?cmd=3',
+          success: function(data)
+          {
+            var myrequestee = JSON.parse(data);
+            var maintenanceemployeeselect = document.getElementById("maintenanceemployee");
+            option = document.createElement("option");
+            option.setAttribute('value', "");
+            option.appendChild(document.createTextNode("Select Employee"));
+            maintenanceemployeeselect.appendChild(option);
+            for(var i = 0; i <= myrequestee.length; i++) {
+                option = document.createElement("option");
+                option.setAttribute('value', myrequestee[i].id);
+                option.appendChild(document.createTextNode(myrequestee[i].name));
+                maintenanceemployeeselect.appendChild(option);
+            }
+          }
+        });
+
+        //employee division dropdown
+        $.ajax({
+          type: 'POST',
+          url: 'accessservice.php?cmd=9',
+          success: function(data)
+          {
+            var mydiv = JSON.parse(data);
+            var divselect = document.getElementById("empdivision");
+            option = document.createElement("option");
+            option.setAttribute('value', "");
+            option.appendChild(document.createTextNode("Select Division"));
+            divselect.appendChild(option);
+            for(var i = 0; i <= mydiv.length; i++) {
+                option = document.createElement("option");
+                option.setAttribute('value', mydiv[i].id);
+                option.appendChild(document.createTextNode(mydiv[i].name));
+                divselect.appendChild(option);
+            }
+          }
+        });
+
+        //employee office dropdown
+        $.ajax({
+          type: 'POST',
+          url: 'accessservice.php?cmd=10',
+          success: function(data)
+          {
+            var mydiv = JSON.parse(data);
+            var divselect = document.getElementById("empoffice");
+            option = document.createElement("option");
+            option.setAttribute('value', "");
+            option.appendChild(document.createTextNode("Select Office"));
+            divselect.appendChild(option);
+            for(var i = 0; i <= mydiv.length; i++) {
+                option = document.createElement("option");
+                option.setAttribute('value', mydiv[i].id);
+                option.appendChild(document.createTextNode(mydiv[i].name));
+                divselect.appendChild(option);
+            }
+          }
+        });
+
+        var pie_processed_grades = new Array();
+        var bar_processed_grades = new Array();
+        var bar_processed_grades_name = new Array();
+        var sum = '';
+
+        /*Highcharts.createElement('link', {
+            href: 'https://fonts.googleapis.com/css?family=Dosis:400,600',
+            rel: 'stylesheet',
+            type: 'text/css'
+        }, null, document.getElementsByTagName('head')[0]);
+
+        Highcharts.theme = {
+            colors: ['#7cb5ec', '#f7a35c', '#90ee7e', '#7798BF', '#aaeeee', '#ff0066', '#eeaaee',
+                '#55BF3B', '#DF5353', '#7798BF', '#aaeeee'],
+            chart: {
+                backgroundColor: null,
+                style: {
+                    fontFamily: 'Dosis, sans-serif'
+                }
+            },
+            title: {
+                style: {
+                    fontSize: '16px',
+                    fontWeight: 'bold',
+                    textTransform: 'uppercase'
+                }
+            },
+            tooltip: {
+                borderWidth: 0,
+                backgroundColor: 'rgba(219,219,216,0.8)',
+                shadow: false
+            },
+            legend: {
+                itemStyle: {
+                    fontWeight: 'bold',
+                    fontSize: '13px'
+                }
+            },
+            xAxis: {
+                gridLineWidth: 1,
+                labels: {
+                    style: {
+                        fontSize: '12px'
+                    }
+                }
+            },
+            yAxis: {
+                minorTickInterval: 'auto',
+                title: {
+                    style: {
+                        textTransform: 'uppercase'
+                    }
+                },
+                labels: {
+                    style: {
+                        fontSize: '12px'
+                    }
+                }
+            },
+            plotOptions: {
+                candlestick: {
+                    lineColor: '#404048'
+                }
+            },
+
+
+            // General
+            background2: '#F0F0EA'
+
+        };
+
+        // Apply the theme
+        Highcharts.setOptions(Highcharts.theme);*/
+
+        //pie Chart
+        $.ajax({
+            type: 'POST',
+            url: 'accessservice.php?cmd=pie',
+            success: function(data){
+                var data1 = JSON.parse(data);
+
+                for (i = 0; i < data1.length; i++){
+                    pie_processed_grades.push([data1[i].name, parseInt(data1[i].y)]);
+                }
+                
+                Highcharts.chart('container', {
+                    chart: {
+                        type: 'pie',
+                        options3d: {
+                            enabled: true,
+                            alpha: 45
+                        }
+                    },
+                    title: {
+                        text: 'Assets by Category'
+                    },
+                    tooltip: {
+                        pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
+                    },
+                    subtitle: {
+                        text: 'Number of Assets based on Categories'
+                    },
+                    plotOptions: {
+                        pie: {
+                            allowPointSelect: true,
+                            cursor: 'pointer',
+                            dataLabels: {
+                                enabled: true
+                            },
+                            showInLegend: false,
+                            innerSize: 100,
+                            depth: 45
+                        }
+                    },
+                    series: [{
+                        name: 'Percentage of Assets',
+                        data: pie_processed_grades
+                    }]
+                });
+            }
+        });
+
+        //
+        $.getJSON("accessservice.php?cmd=bar", function (data2) {
+
+            for (i = 0; i < data2.length; i++){
+                bar_processed_grades.push([data2[i].name, parseInt(data2[i].y)]);
+                bar_processed_grades_name.push([data2[i].name]);
+                sum += parseInt(data2[i].y);
+            }
+            
+            Highcharts.chart('container1', {
+            chart: {
+                type: 'column'
+            },
+            title: {
+                text: 'Asset By Vendors'
+            },
+            subtitle: {
+                text: 'Number of Assets by Vendors'
+            },
+            xAxis: {
+                categories: bar_processed_grades_name
+            },
+            yAxis: {
+                title: {
+                    text: 'Asset Totals'
+                }
+
+            },
+            legend: {
+                enabled: false
+            },
+            plotOptions: {
+                series: {
+                    borderWidth: 0,
+                    dataLabels: {
+                        enabled: true,
+                        format: '{point.y:.f}'
+                    }
+                }
+            },
+
+            tooltip: {
+                headerFormat: '<span style="font-size:11px">{series.name}</span><br>',
+                pointFormat: '<span style="color:{point.color}">{point.name}</span>: <b>{point.y}</b> Total Items.<br/>'
+            },
+
+            series: [{
+                name: 'Vendors Asset',
+                colorByPoint: true,
+                data: bar_processed_grades
+            }]
+            });
+
+        });
+
+    });
+
+    var dataTable1 = $('#details').DataTable( {
+        responsive: true,
+        dom: 'Bfrtip',
+        buttons: [
+            'csv',
+            {
+                extend: 'excel',
+                title: 'NCA Asset Management Portal - Assets In Use'
+            },
+            {
+                extend: 'pdf',
+                title: 'NCA Asset Management Portal - Assets In Use'
+            },
+            {
+                extend: 'print',
+                title: 'NCA Asset Management Portal - Assets In Use'
+            },'colvis'
+        ],
+        columnDefs: [
+            { width: 200, targets: 0 }
+        ],
+        lengthMenu: [[-1], ["All"]],
+        order:[[0,"asc"]],
+        processing: true,
+        serverSide: true,
+        ajax:{
+            url :"detailsdata.php?", // json datasource
+            type: "post",  // method  , by default get
+            error: function(){  // error handling
+                $(".details-error").html("");
+                $("#details").append('<tbody class="sample-data-error"><tr><th class="col-sm-12">No data found in the server</th></tr></tbody>');
+                $("#details_processing").css("display","none");             
+            }
+        }
+    } );
+
+    var dataTable2 = $('#approvedrequests').DataTable( {
+        dom: 'Bfrtip',
+        buttons: [
+            'csv',
+            {
+                extend: 'excel',
+                title: 'NCA Asset Management Portal - Approved Requests'
+            },
+            {
+                extend: 'pdf',
+                title: 'NCA Asset Management Portal - Approved Requests'
+            },
+            {
+                extend: 'print',
+                title: 'NCA Asset Management Portal - Approved Requests'
+            }, 'colvis'
+        ],
+        columnDefs: [
+            { width: 200, targets: 0 }
+        ],
+        lengthMenu: [[20], [50], [100], [-1], [20], [50], [100], ["All"]],
+        order: [[0, "asc"]],
+        processing: true,
+        serverSide: true,
+        ajax: {
+            url :"approvedata.php?", // json datasource
+            type: "post",  // method  , by default get
+            error: function(){  // error handling
+                $(".approvedrequests-error").html("");
+                $("#approvedrequests").append('<tbody class="sample-data-error"><tr><th class="col-sm-12">No Information found</th></tr></tbody>');
+                $("#approvedrequests_processing").css("display","none");             
+            }
+        }
+    } );
+
+    var dataTable3 = $('#notapprovedrequests').DataTable( {
+        responsive: true,
+        dom: 'Bfrtip',
+        buttons: [
+            'csv',
+            {
+                extend: 'excel',
+                title: 'NCA Asset Management Portal - Not Approved Requests'
+            },
+            {
+                extend: 'pdf',
+                title: 'NCA Asset Management Portal - Not Approved Requests'
+            },
+            {
+                extend: 'print',
+                title: 'NCA Asset Management Portal - Not Approved Requests'
+            }, 'colvis'
+        ],
+        lengthMenu: [[20],[50],[100],[-1], [20], [50], [100],["All"]],
+        order: [[0, "asc"]],
+        processing: true,
+        serverSide: true,
+        ajax: {
+            url :"notapprovedata.php?", // json datasource
+            type: "post",  // method  , by default get
+            error: function(){  // error handling
+                $(".notapprovedrequests-error").html("");
+                $("#notapprovedrequests").append('<tbody class="sample-data-error"><tr><th class="col-sm-12">No data found in the server</th></tr></tbody>');
+                $("#notapprovedrequests_processing").css("display","none");             
+            }
+        }
+    } );
+
+    var dataTable4 = $('#pendingrequests').DataTable( {
+        responsive: true,
+        dom: 'Bfrtip',
+        buttons: [
+            'csv',
+            {
+                extend: 'excel',
+                title: 'NCA Asset Management Portal - Pending Requests'
+            },
+            {
+                extend: 'pdf',
+                title: 'NCA Asset Management Portal - Pending Requests'
+            },
+            {
+                extend: 'print',
+                title: 'NCA Asset Management Portal - Pending Requests'
+            }, 'colvis'
+        ],
+        columnDefs: [
+            { width: 200, targets: 0 }
+        ],
+        lengthMenu: [[-1], ["All"]],
+        order: [[2, "asc"]],
+        processing: true,
+        serverSide: true,
+        ajax: {
+            url :"pendingdata.php?", // json datasource
+            type: "post",  // method  , by default get
+            error: function(){  // error handling
+                $(".pendingrequests-error").html("");
+                $("#pendingrequests").append('<tbody class="sample-data-error"><tr><th class="col-sm-12">No data found in the server</th></tr></tbody>');
+                $("#pendingrequests_processing").css("display","none");             
+            }
+        },
+        scrollCollapse: "true"
+    } );
+
+    var dataTable5 = $('#vendorsdetails').DataTable( {
+        responsive: true,
+        dom: 'Bfrtip',
+        buttons: [
+            'csv',
+            {
+                extend: 'excel',
+                title: 'NCA Asset Management Portal - Vendor List'
+            },
+            {
+                extend: 'pdf',
+                title: 'NCA Asset Management Portal - Vendor List'
+            },
+            {
+                extend: 'print',
+                title: 'NCA Asset Management Portal - Vendor List'
+            }, 'colvis'
+        ],
+        columnDefs: [
+            { width: 200, targets: 0 }
+        ],
+        lengthMenu: [[-1], ["All"]],
+        order: [[0, "asc"]],
+        processing: true,
+        serverSide: true,
+        ajax: {
+            url :"vendorsdata.php?", // json datasource
+            type: "post",  // method  , by default get
+            error: function(){  // error handling
+                $(".vendorsdetails-error").html("");
+                $("#vendorsdetails").append('<tbody class="sample-data-error"><tr><th class="col-sm-12">No data found in the server</th></tr></tbody>');
+                $("#vendorsdetails_processing").css("display","none");             
+            }
+        },
+        scrollY: "600px",
+        scrollCollapse: "true",
+    } );
+
+    var dataTable6 = $('#pastdue').DataTable( {
+        responsive: true,
+        dom: 'Bfrtip',
+        buttons: [
+            'csv',
+            {
+                extend: 'excel',
+                title: 'NCA Asset Management Portal - Past Due Assets'
+            },
+            {
+                extend: 'pdf',
+                title: 'NCA Asset Management Portal - Past Due Assets'
+            },
+            {
+                extend: 'print',
+                title: 'NCA Asset Management Portal - Past Due Assets'
+            }, 'colvis'
+        ],
+        columnDefs: [
+            { width: 200, targets: 0 }
+        ],
+        lengthMenu: [[-1], ["All"]],
+        order:[[0,"asc"]],
+        processing: true,
+        serverSide: true,
+        ajax:{
+            url :"pastduedata.php?", // json datasource
+            type: "post",  // method  , by default get
+            error: function(){  // error handling
+                $(".pastdue-error").html("");
+                $("#pastdue").append('<tbody class="sample-data-error"><tr><th class="col-sm-12">No data found in the server</th></tr></tbody>');
+                $("#pastdue_processing").css("display","none");             
+            }
+        },
+        scrollY: "600px",
+        scrollCollapse: "true"
+    } );
+
+    var dataTable7 = $('#empsdetails').DataTable( {
+        responsive: true,
+        dom: 'Bfrtip',
+        buttons: [
+            'csv',
+            {
+                extend: 'excel',
+                title: 'NCA Asset Management Portal - Employee List'
+            },
+            {
+                extend: 'pdf',
+                title: 'NCA Asset Management Portal - Employee List'
+            },
+            {
+                extend: 'print',
+                title: 'NCA Asset Management Portal - Employee List'
+            }, 'colvis'
+        ],
+        columnDefs: [
+            { width: 200, targets: 0 }
+        ],
+        lengthMenu: [[-1], ["All"]],
+        order: [[0, "asc"]],
+        processing: true,
+        serverSide: true,
+        ajax: {
+            url :"employeedata.php?", // json datasource
+            type: "post",  // method  , by default get
+            error: function(){  // error handling
+                $(".empdetails-error").html("");
+                $("#empdetails").append('<tbody class="sample-data-error"><tr><th class="col-sm-12">No data found in the server</th></tr></tbody>');
+                $("#empdetails_processing").css("display","none");             
+            }
+        },
+        scrollY: "600px",
+        scrollCollapse: "true"
+    } );
+
+    function assetdetailsedit(){
+      $('#assetdetailsfield').prop('disabled', false);
+      $('#asseteditButton').hide();
+      $('#assetreportButton').hide();
+      $('#assetsaveButton').show();
+      $('#assetdeleteButton').show();
+    }
+
+    function assetdetailssave(){
+        var ades = document.getElementById("detsassdescription").value;
+        var acat = document.getElementById("detsasscategory").value;
+        var aemp = document.getElementById("detsassemployee").value;
+        var adiv = document.getElementById("detsassdivisionno").value;
+        var aoff = document.getElementById("detsassofficeno").value;
+        var aven = document.getElementById("detsassvendor").value;
+        var anum = document.getElementById("detsassnumber").value;
+        var aser = document.getElementById("detsassserial").value;
+        var amod = document.getElementById("detsassmodel").value;
+        var adpu = document.getElementById("detsassdatepurchased").value;
+        var adis = document.getElementById("detsassdateissued").value;
+        var apur = document.getElementById("detsasspurchase").value;
+        var acur = document.getElementById("detsasscurrent").value;
+        var aid = document.getElementById("detsassid").value;
+
+        if ((ades == "") || (acat == "") || (aemp == "")){
+            errorNotice();
+        }else{
+            swal({
+              title: "Update Information?",
+              type: "info",
+              showCancelButton: true,
+              closeOnConfirm: false,
+              showLoaderOnConfirm: true,
+            }).then (function(){
+              $.ajax({
+                  type: "POST",
+                  url: "accessservice.php?cmd=19&ades="+ades+"&acat="+acat+"&aemp="+aemp+"&adiv="+adiv+"&aoff="+aoff+"&aven="+aven+"&anum="+anum+"&aser="+aser+"&amod="+amod+"&adpu="+adpu+"&adis="+adis+"&apur="+apur+"&acur="+acur+"&aid="+aid,
+                  success: function(){
+                    swal({
+                      title: "Updated!",
+                      type: "success"
+                    });
+                  }
+              });
+                dataTable1.ajax.reload();
+                $('#assetdetailsfield').prop('disabled', true);
+                $('#asseteditButton').show();
+                $('#assetreportButton').show();
+                $('#assetsaveButton').hide();  
+                $('#assetdeleteButton').hide();   
+            });
+        }
+                
+    }
+
+    function assetdetailsdelete(){
+        var aid = document.getElementById("detsassid").value;
+        swal({
+            title: "Delete Entry?",
+            type: "warning",
+            showCancelButton: true,
+            closeOnConfirm: false,
+            showLoaderOnConfirm: true,
+        }).then (function(){
+            $.ajax({
+                type: "POST",
+                url: "accessservice.php?cmd=20&aid="+aid,
+                success: function(){
+                swal({
+                    title: "Deleted!",
+                    type: "success"
+                });
+                }
+            });
+            dataTable1.ajax.reload();
+            $('#assetdetailsfield').prop('disabled', true);
+            $('#asseteditButton').show();
+            $('#assetsaveButton').hide(); 
+            $('#assetreportButton').show();
+            $('#assetdeleteButton').hide(); 
+            $('#assetdetails').modal('hide');  
+        });           
+    }
+
+    function assetreportsave(){
+        var aid = document.getElementById("detsassid").value;
+        var text = document.getElementById("reasonsinfo").value;
+
+        $.ajax({
+            type: "POST",
+            url: "accessservice.php?cmd=27&id="+aid+"&rea="+text,
+            success: function(){
+                swal({
+                    type: 'success',
+                    title: 'Reported!'
+                });
+
+                dataTable1.ajax.reload();
+                $('#assetdetailsfield').prop('disabled', true);
+                $('#asseteditButton').show();
+                $('#assetsaveButton').hide();  
+                $('#assetreportButton').show();
+                $('#assetdeleteButton').hide(); 
+                $('#assetdetails').modal('hide'); 
+                $('#reasons').modal('hide');
+            }
+        });     
+    }
+
+    function empdetailsedit(){
+      $('#empdetailsfield').prop('disabled', false);
+      $('#empeditButton').hide();
+      $('#empsaveButton').show();
+      $('#empdeleteButton').show();
+    }
+
+    function empdetailssave(){
+        var enm = document.getElementById("detsempname").value;
+        var eph = document.getElementById("detsempphone").value;
+        var eext = document.getElementById("detsempext").value;
+        var ediv = document.getElementById("detsempdivision").value;
+        var eoff= document.getElementById("detsempoffice").value;
+        var id = document.getElementById("detsempid").value;
+
+        if ((enm == "") || (ediv == "") || (eoff == "")){
+            errorNotice();
+        }else{
+            swal({
+              title: "Update Employee Information?",
+              type: "info",
+              showCancelButton: true,
+              closeOnConfirm: false,
+              showLoaderOnConfirm: true,
+            }).then (function(){
+              $.ajax({
+                  type: "POST",
+                  url: "accessservice.php?cmd=24&name="+enm+"&phone="+eph+"&ext="+eext+"&div="+ediv+"&office="+eoff+"&id="+id,
+                  success: function(){
+                    swal({
+                      title: "Updated!",
+                      type: "success"
+                    });
+                  }
+              });
+            dataTable7.ajax.reload();
+            $('#empdetailsfield').prop('disabled', true);
+            $('#empeditButton').show();
+            $('#empsaveButton').hide();  
+            $('#empdeleteButton').hide();   
+            });
+        }
+                
+    }
+
+    function empdetailsdelete(){
+        var aid = document.getElementById("detsempid").value;
+        swal({
+            title: "Delete Employee?",
+            type: "warning",
+            showCancelButton: true,
+            closeOnConfirm: false,
+            showLoaderOnConfirm: true,
+        }).then (function(){
+            $.ajax({
+                type: "POST",
+                url: "accessservice.php?cmd=25&id="+aid,
+                success: function(){
+                swal({
+                    title: "Deleted!",
+                    type: "success"
+                });
+                }
+            });
+            dataTable7.ajax.reload();
+            $('#empdetailsfield').prop('disabled', true);
+            $('#empeditButton').show();
+            $('#empsaveButton').hide();  
+            $('#empdeleteButton').hide(); 
+            $('#empdetails').modal('hide');  
+        });           
+    }
+
+    function vendordetailsedit(){
+      $('#vendordetailsfield').prop('disabled', false);
+      $('#vendoreditButton').hide();
+      $('#vendorsaveButton').show();
+      $('#vendordeleteButton').show();
+    }
+
+    function vendordetailssave(){
+        var name = document.getElementById("detsvenname").value;
+        var num = document.getElementById("detsvenphone").value;
+        var cou = document.getElementById("detsvencountry").value;
+        var add = document.getElementById("detsvenpaddress").value;
+        var loc = document.getElementById("detsvenphaddress").value;
+        var cname = document.getElementById("detsvenconname").value;
+        var cno = document.getElementById("detsvenconno").value;
+        var not = document.getElementById("detsvennotes").value;
+        var id = document.getElementById("detsvenid").value;
+
+        if ((name == "") || (add == "") || (num == "") || (cou == "")){
+            errorNotice();
+        }else{
+            swal({
+              title: "Update Information?",
+              type: "info",
+              showCancelButton: true,
+              closeOnConfirm: false,
+              showLoaderOnConfirm: true,
+            }).then (function(){
+              $.ajax({
+                  type: "POST",
+                  url: "accessservice.php?cmd=23&name="+name+"&cname="+cname+"&cno="+cno+"&add="+add+"&loc="+loc+"&cou="+cou+"&num="+num+"&not="+not+"&id="+id,
+                  success: function(){
+                    swal({
+                      title: "Updated!",
+                      type: "success"
+                    });
+                  }
+              });
+                dataTable5.ajax.reload();
+                $('#vendordetailsfield').prop('disabled', true);
+                $('#vendoreditButton').show();
+                $('#vendorsaveButton').hide();  
+                $('#vendordeleteButton').hide();   
+            });
+        }
+                
+    }
+
+    function vendordetailsdelete(){
+        var aid = document.getElementById("detsvenid").value;
+        swal({
+            title: "Delete Vendor?",
+            type: "warning",
+            showCancelButton: true,
+            closeOnConfirm: false,
+            showLoaderOnConfirm: true,
+        }).then (function(){
+            $.ajax({
+                type: "POST",
+                url: "accessservice.php?cmd=22&id="+aid,
+                success: function(){
+                swal({
+                    title: "Deleted!",
+                    type: "success"
+                });
+                }
+            });
+            dataTable5.ajax.reload();
+            $('#vendordetailsfield').prop('disabled', true);
+            $('#vendoreditButton').show();
+            $('#vendorsaveButton').hide();  
+            $('#vendordeleteButton').hide(); 
+            $('#vendordetails').modal('hide');  
+        });           
+    }
+
+    function dets(id){
+      $('#assetdetailsfield').prop('disabled', true);
+      $('#asseteditButton').show();
+      $('#assetreportButton').show();
+      $('#assetsaveButton').hide();
+      $('#assetdeleteButton').hide();
+
+      $('#detsassdescription').empty();
+      $('#detsasscategory').empty();
+      $('#detsassemployee').empty();
+      $('#detsassdivision').empty();
+      $('#detsassdivisionno').empty();
+      $('#detsassid').empty();
+      $('#detsassoffice').empty();
+      $('#detsassofficeno').empty();
+      $('#detsassvendor').empty();
+      $('#detsassnumber').empty();
+      $('#detsassserial').empty();
+      $('#detsassmodel').empty();
+      $('#detsassdatepurchased').empty();
+      $('#detsassdateissued').empty();
+      $('#detsasspurchase').empty();
+      $('#detsasscurrent').empty();
+
+      $.ajax({
+        type: "POST",
+        url: "accessservice.php?cmd=18&id="+id,
+        success: function(data){
+            var myinfo = JSON.parse(data);
+
+            $.ajax({
+                type: 'POST',
+                url: 'accessservice.php?cmd=3',
+                success: function(data)
+                {
+                    var myrequestee = JSON.parse(data);
+                    var requesteeselect = document.getElementById("detsassemployee");
+                    option = document.createElement("option");
+                    option.setAttribute('value', "");
+                    option.appendChild(document.createTextNode("Select Employee"));
+                    requesteeselect.appendChild(option);
+                    for(var i = 0; i <= myrequestee.length; i++) {
+                        option = document.createElement("option");
+                        option.setAttribute('value', myrequestee[i].id);
+                        if (myrequestee[i].id == myinfo.employee){
+                            option.setAttribute('selected', "selected");
+                        }
+                        option.appendChild(document.createTextNode(myrequestee[i].name));
+                        requesteeselect.appendChild(option);
+                    }
+                }
+            });
+
+            //employee dropdown
+           $.ajax({
+                type: 'POST',
+                url: 'accessservice.php?cmd=15&id='+myinfo.employee,
+                success: function(data)
+                {
+                    var myinfo = JSON.parse(data);
+                    document.getElementById("detsassdivision").value = myinfo.name;
+                    document.getElementById("detsassoffice").value = myinfo.office;
+                }
+            });
+
+            //vendor dropdown
+            $.ajax({
+                type: 'POST',
+                url: 'accessservice.php?cmd=16',
+                success: function(data)
+                {
+                    var myasset = JSON.parse(data);
+                    var assetselect = document.getElementById("detsassvendor");
+                    option = document.createElement("option");
+                    option.setAttribute('value', "");
+                    option.appendChild(document.createTextNode("Select Vendor"));
+                    assetselect.appendChild(option);
+                    for(var i = 0; i <= myasset.length; i++) {
+                        option = document.createElement("option");
+                        option.setAttribute('value', myasset[i].id);
+                        if (myasset[i].id == myinfo.vendor){
+                            option.setAttribute('selected', "selected");
+                        }
+                        option.appendChild(document.createTextNode(myasset[i].name));
+                        assetselect.appendChild(option);
+                    }
+                }
+            });
+
+            //asset dropdown
+            $.ajax({
+            type: 'POST',
+            url: 'accessservice.php?cmd=2',
+            success: function(data)
+            {
+                var myasset = JSON.parse(data);
+                var assetselect = document.getElementById("detsasscategory");
+                option = document.createElement("option");
+                option.setAttribute('value', "");
+                option.appendChild(document.createTextNode("Select Asset"));
+                assetselect.appendChild(option);
+                for(var i = 0; i <= myasset.length; i++) {
+                    option = document.createElement("option");
+                    option.setAttribute('value', myasset[i].id);
+                    if (myasset[i].id == myinfo.category){
+                            option.setAttribute('selected', "selected");
+                        }
+                    option.appendChild(document.createTextNode(myasset[i].name));
+                    assetselect.appendChild(option);
+                }
+            }
+            });
+
+            document.getElementById("detsassdescription").value = myinfo.description;
+            document.getElementById("detsasscategory").value = myinfo.category;
+            document.getElementById("detsassdivisionno").value = myinfo.division;
+            document.getElementById("detsassid").value = myinfo.assid;
+            document.getElementById("detsassofficeno").value = myinfo.office;
+            document.getElementById("detsassserial").value = myinfo.serial;
+            document.getElementById("detsassnumber").value = myinfo.asset;
+            document.getElementById("detsassmodel").value = myinfo.model;
+            document.getElementById("detsassdatepurchased").value = myinfo.purchased;
+            document.getElementById("detsassdateissued").value = myinfo.issued;
+            document.getElementById("detsasspurchase").value = myinfo.purchase;
+            document.getElementById("detsasscurrent").value = myinfo.current;
+
+        }
+        });
+
+    }
+
+    function vendordets(id){
+      $('#vendordetailsfield').prop('disabled', true);
+      $('#vendoreditButton').show();
+      $('#vendorsaveButton').hide();
+      $('#vendordeleteButton').hide();
+
+      $('#detsvenname').empty();
+      $('#detsvenphone').empty();
+      $('#detsvencountry').empty();
+      $('#detsvenpaddress').empty();
+      $('#detsvenconname').empty();
+      $('#detsvenconno').empty();
+      $('#detsvennotes').empty();
+      $('#detsvenid').empty();
+
+      $.ajax({
+        type: "POST",
+        url: "accessservice.php?cmd=21&id="+id,
+        success: function(data){
+            var myinfo = JSON.parse(data);
+
+            $.ajax({
+                type: 'POST',
+                url: 'accessservice.php?cmd=12',
+                success: function(data)
+                {
+                    var myrequestee = JSON.parse(data);
+                    var requesteeselect = document.getElementById("detsvencountry");
+                    option = document.createElement("option");
+                    option.setAttribute('value', "");
+                    option.appendChild(document.createTextNode("Select Country"));
+                    requesteeselect.appendChild(option);
+                    for(var i = 0; i <= myrequestee.length; i++) {
+                        option = document.createElement("option");
+                        option.setAttribute('value', myrequestee[i].id);
+                        if (myrequestee[i].id == myinfo.country){
+                            option.setAttribute('selected', "selected");
+                        }
+                        option.appendChild(document.createTextNode(myrequestee[i].name));
+                        requesteeselect.appendChild(option);
+                    }
+                }
+            });
+
+            document.getElementById("detsvenname").value = myinfo.name;
+            document.getElementById("detsvenphone").value = myinfo.number;
+            document.getElementById("detsvenpaddress").value = myinfo.address;
+            document.getElementById("detsvenphaddress").value = myinfo.location;
+            document.getElementById("detsvenconname").value = myinfo.cname;
+            document.getElementById("detsvenconno").value = myinfo.cno;
+            document.getElementById("detsvennotes").value = myinfo.notes;
+            document.getElementById("detsvenid").value = myinfo.venid;
+
+        }
+        });
+
+    }
+
+    function empdets(id){
+      $('#empdetailsfield').prop('disabled', true);
+      $('#empeditButton').show();
+      $('#empsaveButton').hide();
+      $('#empdeleteButton').hide();
+
+      $('#detsempname').empty();
+      $('#detsempphone').empty();
+      $('#detsempdivision').empty();
+      $('#detsempoffice').empty();
+      $('#detsempext').empty();
+      $('#detsempid').empty();
+
+      $.ajax({
+        type: "POST",
+        url: "accessservice.php?cmd=26&id="+id,
+        success: function(data){
+            var myinfo = JSON.parse(data);
+
+            $.ajax({
+                type: 'POST',
+                url: 'accessservice.php?cmd=9',
+                success: function(data)
+                {
+                    var myrequestee = JSON.parse(data);
+                    var requesteeselect = document.getElementById("detsempdivision");
+                    option = document.createElement("option");
+                    option.setAttribute('value', "");
+                    option.appendChild(document.createTextNode("Select Division"));
+                    requesteeselect.appendChild(option);
+                    for(var i = 0; i <= myrequestee.length; i++) {
+                        option = document.createElement("option");
+                        option.setAttribute('value', myrequestee[i].id);
+                        if (myrequestee[i].id == myinfo.div){
+                            option.setAttribute('selected', "selected");
+                        }
+                        option.appendChild(document.createTextNode(myrequestee[i].name));
+                        requesteeselect.appendChild(option);
+                    }
+                }
+            });
+
+            $.ajax({
+                type: 'POST',
+                url: 'accessservice.php?cmd=10',
+                success: function(data)
+                {
+                    var myrequestee = JSON.parse(data);
+                    var requesteeselect = document.getElementById("detsempoffice");
+                    option = document.createElement("option");
+                    option.setAttribute('value', "");
+                    option.appendChild(document.createTextNode("Select Office"));
+                    requesteeselect.appendChild(option);
+                    for(var i = 0; i <= myrequestee.length; i++) {
+                        option = document.createElement("option");
+                        option.setAttribute('value', myrequestee[i].id);
+                        if (myrequestee[i].id == myinfo.off){
+                            option.setAttribute('selected', "selected");
+                        }
+                        option.appendChild(document.createTextNode(myrequestee[i].name));
+                        requesteeselect.appendChild(option);
+                    }
+                }
+            });
+
+            document.getElementById("detsempname").value = myinfo.name;
+            document.getElementById("detsempphone").value = myinfo.phone;
+            document.getElementById("detsempext").value = myinfo.ext;
+            document.getElementById("detsempid").value = myinfo.id;
+
+            }
+        });
+
+    }
+
+    function scrollToView() {
+        $('#viewrecords').show();
+        $('#recordrequest').hide();
+        $('#renewalform').hide();
+        $('#neworgform').hide();
+
+        $("html, body").animate({
+            scrollTop: $('#viewrecords').offset().top
+        }, 1000);
+    }
+
+    function scrollToRequests() {
+        $('#recordrequest').show();
+        $('#viewrecords').hide();
+        $('#renewalform').hide();
+        $('#neworgform').hide();
+
+        $("html, body").animate({
+            scrollTop: $('#recordrequest').offset().top
+        }, 1000);
+    }
+
+    function scrollToNewOrg() {
+        $('#recordrequest').hide();
+        $('#viewrecords').hide();
+        $('#renewalform').hide();
+        $('#neworgform').show();
+
+        $("html, body").animate({
+            scrollTop: $('#neworgform').offset().top
+        }, 1000);
+    }
+
+    function scrollToViewRequests() {
+        $('#recordrequest').hide();
+        $('#viewrecords').hide();
+        $('#renewalform').show();
+        $('#neworgform').hide();
+
+        $("html, body").animate({
+            scrollTop: $('#renewalform').offset().top
+        }, 1000);
+    }
+
+    $(window).scroll(function () {
+        if ($(this).scrollTop() > 500) {
+            $('#topbutton').fadeIn();
+        } else {
+            $('#topbutton').fadeOut();
+        }
+    });
+
+    function scrollToTop() {
+        $("html, body").animate({
+            scrollTop: 0
+        }, 1000);
+
+        $('#viewrecords').fadeOut(1100);
+        $('#recordrequest').fadeOut(1100);
+        $('#neworgform').fadeOut(1100);
+        $('#renewalform').fadeOut(1100);
+     
+    }
+
+    function dynamicdropdown(listindex) {
+      $('#requesteedivision').empty();
+       $('#requesteedivisionno').empty();
+        $.ajax({
+          type: 'POST',
+          url: 'accessservice.php?cmd=4&id='+listindex,
+          success: function(data)
+          {
+            var mydivision = JSON.parse(data);
+
+            document.getElementById("requesteedivision").value = mydivision.name;
+            document.getElementById("requesteedivisionno").value = mydivision.num;
+            document.getElementById("requesteeoffice").value = mydivision.off;
+            document.getElementById("requesteeofficeno").value = mydivision.offnum;
+          }
+        });
+    }
+
+    function dynamicdropdown2(listindex){
+      $('#maintenanceassets').empty().append('<option value="">Select Asset</option>');
+      $.ajax({
+          type: 'POST',
+          url: 'accessservice.php?cmd=7&id='+listindex,
+          success: function(data)
+          {
+            var mysubcs = JSON.parse(data);
+            var subcsselect = document.getElementById("maintenanceassets");
+            for(var i = 0; i <= mysubcs.length; i++) {
+                option1 = document.createElement("option");
+                option1.setAttribute('value', mysubcs[i].assetid);
+                option1.appendChild(document.createTextNode(mysubcs[i].category));
+                subcsselect.appendChild(option1);
+            }
+          }
+        });
+    }
+
+    function dynamicdropdown3(listindex){
+      $('#venphone').empty().append('+');
+        $.ajax({
+          type: 'POST',
+          url: 'accessservice.php?cmd=13&id='+listindex,
+          success: function(data)
+          {
+            var mytel = JSON.parse(data);
+            var tel = document.getElementById("venphone");
+            tel.value = ('+'+mytel.num+'-');
+          }
+        });
+    }
+
+    function dynamicdropdown4(listindex){
+      $('#assdivision').empty();
+      $('#assoffice').empty();
+      $('#assdivisionno').empty();
+      $('#assofficeno').empty();
+        $.ajax({
+          type: 'POST',
+          url: 'accessservice.php?cmd=15&id='+listindex,
+          success: function(data)
+          {
+            var myinfo = JSON.parse(data);
+            document.getElementById("assdivision").value = myinfo.name;
+            document.getElementById("assdivisionno").value = myinfo.num;
+            document.getElementById("assoffice").value = myinfo.office;
+            document.getElementById("assofficeno").value = myinfo.officeno;
+          }
+        });
+    }
+
+    function dynamicdropdown5(listindex){
+      $('#detsassdivision').empty();
+      $('#detsassoffice').empty();
+      $('#detsassdivisionno').empty();
+      $('#detsassofficeno').empty();
+        $.ajax({
+          type: 'POST',
+          url: 'accessservice.php?cmd=15&id='+listindex,
+          success: function(data)
+          {
+            var myinfo = JSON.parse(data);
+            document.getElementById("detsassdivision").value = myinfo.name;
+            document.getElementById("detsassdivisionno").value = myinfo.num;
+            document.getElementById("detsassoffice").value = myinfo.office;
+            document.getElementById("detsassofficeno").value = myinfo.officeno;
+          }
+        });
+    }
+
+    function approvereq(id) {
+        swal({
+            title: "Approve Request?",
+            type: "info",
+            showCancelButton: true,
+            showLoaderOnConfirm: true,
+        }).then (function(){
+            $.ajax({
+                type: "POST",
+                url: "accessservice.php?cmd=6&id="+id+"&status=Approved",
+                success: function(){
+                    swal(
+                        'Approved!',
+                        'Remember to add more information to this Request.',
+                        'success'
+                    );
+                    dataTable1.ajax.reload();
+                    dataTable2.ajax.reload();
+                    dataTable3.ajax.reload();
+                    dataTable4.ajax.reload();
+                }
+            });
+                
+        });
+    }
+
+    function denyreq(id) {
+      swal({
+            title: "Deny Request?",
+            type: "info",
+            showCancelButton: true,
+            showLoaderOnConfirm: true,
+        }).then (function(){
+            $.ajax({
+                type: "POST",
+                url: "accessservice.php?cmd=6&id="+id+"&status=Disapproved",
+                success: function(){
+                swal({
+                    title: "Denied!",
+                    type: "success"
+                });
+                dataTable2.ajax.reload();
+                dataTable3.ajax.reload();
+                dataTable4.ajax.reload();
+                }
+            });
+                
+        });
+    }
+
+    //function to show errors
+    function errorNotice() {
+      swal({
+        title: 'Sorry', 
+        text: 'Please Fill Required Fields.', 
+        type: 'error'}); 
+    }
+
+    //function to send details
+    function addAsset() {
+        var ades = document.getElementById("assdescription").value;
+        var acat = document.getElementById("asscategory").value;
+        var aemp = document.getElementById("assemployee").value;
+        var adiv = document.getElementById("assdivisionno").value;
+        var aoff = document.getElementById("assofficeno").value;
+        var aven = document.getElementById("assvendor").value;
+        var anum = document.getElementById("assnumber").value;
+        var aser = document.getElementById("assserial").value;
+        var amod = document.getElementById("assmodel").value;
+        var adpu = document.getElementById("assdatepurchased").value;
+        var adis = document.getElementById("assdateissued").value;
+        var apur = document.getElementById("asspurchase").value;
+        var acur = document.getElementById("asscurrent").value;
+
+        if ((ades == "") || (acat == "") || (aemp == "") || (aser == "") || (anum == "")){
+            errorNotice();
+        }else{
+            swal({
+              title: "Add Asset?",
+              type: "info",
+              showCancelButton: true,
+              closeOnConfirm: false,
+              showLoaderOnConfirm: true,
+            }).then (function(){
+              $.ajax({
+                  type: "POST",
+                  url: "accessservice.php?cmd=17&ades="+ades+"&acat="+acat+"&aemp="+aemp+"&adiv="+adiv+"&aoff="+aoff+"&aven="+aven+"&anum="+anum+"&aser="+aser+"&amod="+amod+"&adpu="+adpu+"&adis="+adis+"&apur="+apur+"&acur="+acur,
+                  success: function(){
+                    swal({
+                      title: "Added!",
+                      type: "success"
+                    });
+                    dataTable1.ajax.reload();
+                    $('#assdescription').val('');
+                    //$('#assdivision').val('');
+                    //$('#assoffice').val('');
+                    $('#assnumber').val('');
+                    $('#assmodel').val('');
+                    $('#assserial').val('');
+                    $('#assdatepurchased').val('');
+                    $('#assdateissued').val('');
+                    $('#asspurchase').val('');
+                    $('#asscurrent').val('');
+                  }
+              });
+                    
+            });
+        }
+    }
+
+    function addEmployee() {
+        var enm = document.getElementById("empname").value;
+        var eph = document.getElementById("empphone").value;
+        var eext = document.getElementById("empext").value;
+        var ediv = document.getElementById("empdivision").value;
+        var eoff= document.getElementById("empoffice").value;
+
+        if ((enm == "") || (ediv == "") || (eoff == "")){
+            errorNotice();
+        }else{
+            swal({
+              title: "Add Employee?",
+              type: "info",
+              showCancelButton: true,
+              closeOnConfirm: false,
+              showLoaderOnConfirm: true,
+            }).then (function(){
+              $.ajax({
+                  type: "POST",
+                  url: "accessservice.php?cmd=11&name="+enm+"&phone="+eph+"&ext="+eext+"&div="+ediv+"&office="+eoff,
+                  success: function(){
+                    swal({
+                      title: "Added!",
+                      type: "success"
+                    });
+                    dataTable7.ajax.reload();
+                    $('#empphone').val('');
+                    $('#empname').val('');
+                    $('#empext').val('');
+                  }
+              });
+                    
+            });
+        }
+    }
+
+    function addMaintenance() {
+        var mainby = document.getElementById("maintenanceby").value;
+        var maindes = document.getElementById("maintenancedescription").value;
+        var maincost = document.getElementById("maintenancecost").value;
+        var mdate = document.getElementById("maindate").value;
+        var mass= document.getElementById("maintenanceassets").value;
+
+        if ((mainby == "") || (maincost == "") || (mdate == "")){
+            errorNotice();
+        }else{
+            swal({
+              title: "Add Information?",
+              type: "info",
+              showCancelButton: true,
+              closeOnConfirm: false,
+              showLoaderOnConfirm: true,
+            }).then (function(){
+              $.ajax({
+                  type: "POST",
+                  url: "accessservice.php?cmd=8&by="+mainby+"&des="+maindes+"&asset="+mass+"&date="+mdate+"&cost="+maincost,
+                  success: function(){
+                    swal({
+                      title: "Added!",
+                      type: "success"
+                    });
+                    $('#maintenancedescription').val('');
+                    $('#maintenancecost').val('');
+                    $('#maindate').val('');
+                    $('#maintenanceby').val('');
+                  }
+              });
+                    
+            });
+        }
+    }
+
+    function addRequest() {
+        var rass = document.getElementById("requestedasset").value;
+        var req = document.getElementById("requestee").value;
+        var rd = document.getElementById("requesteedivisionno").value;
+         var ro = document.getElementById("requesteeofficeno").value;
+        var rdate = document.getElementById("requestdate").value;
+
+        if ((rass == "") || (req == "") || (rd == "") || (rdate == "")){
+            errorNotice();
+        }else{
+            swal({
+              title: "Send Request?",
+              type: "info",
+              showCancelButton: true,
+              closeOnConfirm: false,
+              showLoaderOnConfirm: true,
+            }).then (function(){
+              $.ajax({
+                  type: "POST",
+                  url: "accessservice.php?cmd=5&emp="+req+"&div="+rd+"&off="+ro+"&asset="+rass+"&date="+rdate,
+                  success: function(){
+                    swal({
+                      title: "Sent!",
+                      type: "success"
+                    });
+                    dataTable4.ajax.reload();
+                    $('#requesteedivision').val('');
+                    $('#requesteedivisionno').val('');
+                    $('#requesteeoffice').val('');
+                    $('#requesteeofficeno').val('');
+                    $('#requestdate').val('');
+                  }
+              });
+                    
+            });
+        }
+    }
+
+    function addVendor() {
+        var name = document.getElementById("venname").value;
+        var num = document.getElementById("venphone").value;
+        var cou = document.getElementById("vencountry").value;
+        var add = document.getElementById("venpaddress").value;
+        var loc= document.getElementById("venphaddress").value;
+        var cname = document.getElementById("venconname").value;
+        var cno = document.getElementById("venconno").value;
+        var not = document.getElementById("vennotes").value;
+
+        if ((name == "") || (add == "") || (num == "") || (cou == "")){
+            errorNotice();
+        }else{
+            swal({
+              title: "Add Vendors?",
+              type: "info",
+              showCancelButton: true,
+              closeOnConfirm: false,
+              showLoaderOnConfirm: true,
+            }).then (function(){
+              $.ajax({
+                  type: "POST",
+                  url: "accessservice.php?cmd=14&name="+name+"&cname="+cname+"&cno="+cno+"&add="+add+"&loc="+loc+"&cou="+cou+"&num="+num+"&not="+not,
+                  success: function(){
+                    swal({
+                      title: "Added!",
+                      type: "success"
+                    });
+                    dataTable5.ajax.reload();
+                    $('#venphone').val('');
+                    $('#venname').val('');
+                    $('#venpaddress').val('');
+                    $('#venphaddress').val('');
+                    $('#venconname').val('');
+                    $('#venconno').val('');
+                    $('#vennotes').val('');
+                  }
+              });
+                    
+            });
+        }
+    }
+
+    function openPass(){
+        $('#changePassButt').show();
+        $('#opass').show();
+        $('#cnpass').hide();
+        $('#npass').hide();
+        $('#profilefooter').hide();
+        document.getElementById('proffull').reset();
+    }
+
+    function passerror() {
+        swal({
+            title: 'Sorry', 
+            text: 'Wrong Information!', 
+            type: 'error',
+            animation: false,
+            customClass: 'animated tada'
+        }); 
+    }
+
+    function newpasserror() {
+        swal({
+            title: 'Sorry', 
+            text: 'Passwords Do Not Match', 
+            type: 'error',
+            animation: false,
+            customClass: 'animated tada'
+        }); 
+    }
+
+    function newpasssuccess() {
+        swal({
+            title: 'Success', 
+            text: 'Password Changed', 
+            type: 'success',
+            animation: false,
+            customClass: 'animated tada'
+        }); 
+    }
+
+    function changePass(){
+        var userinfo = sessionStorage.getItem('userdata');
+        var parsedinfo = JSON.parse(userinfo);
+        var username = parsedinfo.uname;
+        var password = $("#oopass").val();
+
+        var theurl = 'cmd=1&username='+username+'&password='+password;
+        $.ajax({
+            type: 'POST',
+            url: 'accessservice.php',
+            data: theurl,
+            success: function(data)
+            {
+                var mydata = JSON.parse(data);
+                if (mydata =="") {
+                    passerror();
+                }else{
+                    $('#changePassButt').hide();
+                    $('#opass').hide();
+                    $('#cnpass').show();
+                    $('#npass').show();
+                    $('#profilefooter').show();
+                }
+            }
+        });
+
+       
+    }
+
+    function userpasswordchange(){
+        var info22 = $("#proffull").serialize();
+        var password1 = $("#nnpass").val();
+        var password2 = $("#ccnpass").val();
+        var userinfo = sessionStorage.getItem('userdata');
+        var parsedinfo = JSON.parse(userinfo);
+        var userId = parsedinfo.id;
+
+        if (password1 == password2){
+            var theurl = 'cmd=28&password='+password1+'&id='+userId;
+            $.ajax({
+                type: 'POST',
+                url: 'accessservice.php',
+                data: theurl,
+                success: function(data)
+                {
+                    newpasssuccess();
+                    $('#changePassButt').show();
+                    $('#opass').show();
+                    $('#cnpass').hide();
+                    $('#npass').hide();
+                    $('#profilefooter').hide();
+                    document.getElementById().reset();
+                }
+            });
+        }else{
+            newpasserror();
+        }
+
+        /* 
+        */
+
+    }
+
+    function logout() {
+        swal({
+          title: 'Bye', 
+          text: 'Logged Out', 
+          type: 'success',
+          allowOutsideClick: false
+        }).then(function(){ 
+            sessionStorage.removeItem('userdata');
+            window.location.href = "index.html";
+        });
+    }
+
+    function upperCaseF(a){
+        setTimeout(function(){
+            a.value = a.value.toUpperCase();
+        }, 1);
+    }
+
+</script>
+
+</html>

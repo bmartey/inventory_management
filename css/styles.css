@@ -1,0 +1,70 @@
+.index-bg {
+background: url(../images/background.jpg) no-repeat center center fixed;
+/*background: url(../images/back.gif) no-repeat center center fixed;*/ 
+}
+.home-bg {
+background: url(../images/home.jpg) no-repeat center center fixed;
+}
+
+body{
+  font-family: Lato;
+  font-weight: 600;
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
+  height: 100%;
+}
+
+#leftHalf {
+   background: url(../images/bg-1.jpg);
+   background-size: cover;
+   opacity: 0.2;
+   width: 50%;
+   position: absolute;
+   left: 0px;
+   height: 100%;
+}
+
+#rightHalf {
+   /*background: url(../images/back.png);
+   background-size:     cover;                     
+    background-repeat:   no-repeat;
+    background-position: center center;*/
+   background-color: #FFFFFF;
+   width: 500px;
+   position: absolute;
+   right: 0px;
+   height: 100%;
+}
+
+#logo{
+  width: 160px; 
+}
+
+#inner_container{ 
+  width: 100%;
+  height: 100%;
+  padding-top: 90px;
+  padding-left: 50px;
+  padding-right: 50px;
+}
+
+.spacer {
+  height: 120px;
+}
+
+.error_heading {
+  height: 27px;
+}
+
+.input_field {
+  height: 335px;
+}
+
+.footer{
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  height: 50px;
+}
